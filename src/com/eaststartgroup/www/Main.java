@@ -5,10 +5,9 @@ package com.eaststartgroup.www;
  *
  */
 
-import java.util.List;
 import java.util.Arrays;
-import java.util.stream.Stream;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -19,16 +18,16 @@ import java.util.stream.Collectors;
 public class Main {
 
     final static List<Student> students = Arrays.asList(
-        new Student("Joe","Clay",1994,Gender.MALE),
-        new Student("Marie","Smith",1997,Gender.FEMALE),
-        new Student("Ann","Thompson",2000,Gender.FEMALE),
-        new Student("James","Bond",1989,Gender.MALE),
-        new Student("Jennifer","Atkins",1995,Gender.FEMALE),
-        new Student("Cristina","Gibbs",1999,Gender.FEMALE),
-        new Student("Jason","Clark",1998,Gender.MALE),
-        new Student("Kate","Barrett",1992,Gender.FEMALE),
-        new Student("Peter","Garner",1999,Gender.MALE),
-        new Student("Ben","Walsh",1996,Gender.MALE)
+            new Student("Joe","Clay",1994,Gender.MALE),
+            new Student("Marie","Smith",1997,Gender.FEMALE),
+            new Student("Ann","Thompson",2000,Gender.FEMALE),
+            new Student("James","Bond",1989,Gender.MALE),
+            new Student("Jennifer","Atkins",1995,Gender.FEMALE),
+            new Student("Cristina","Gibbs",1999,Gender.FEMALE),
+            new Student("Jason","Clark",1998,Gender.MALE),
+            new Student("Kate","Barrett",1992,Gender.FEMALE),
+            new Student("Peter","Garner",1999,Gender.MALE),
+            new Student("Ben","Walsh",1996,Gender.MALE)
     );
 
     //Print the full names of each student.
@@ -45,44 +44,73 @@ public class Main {
     //Print the first name of each male student.
     //Hint: filter
     public static void runExercise2() {
-        student.stream().map(student -> student.getFirstName()).forEach(System.out::println);
+        students.stream()
+                .filter(student -> student.getGender() == Gender.MALE)
+                .map(student -> student.getFirstName())
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
     }
 
     //Print the full names and age of the first 5 students older than 20 years of age.
     //Hint: limit
     public static void runExercise3() {
-
+        students.stream()
+                .filter(student -> (2017-student.getBirthYear()) > 20)
+                .map(student -> student.getName() + " " + (2017-student.getBirthYear()))
+                .limit(5)
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
     }
 
     //Print the average age of students.
     //Hint: mapToInt average
     public static void runExercise4() {
-
+        System.out.println(students.stream()
+                .mapToInt(student -> 2017-student.getBirthYear())
+                .average());
     }
 
     //Print the amount of students who are over 22 years old.
     //Hint: count
     public static void runExercise5() {
-
+        System.out.println(students.stream()
+                .filter(student -> (2017-student.getBirthYear()) > 22)
+                .count());
     }
 
     //Print a list of age and student name sorted by age.
     //Hint: sorter
     public static void runExercise6() {
-
+        students.stream()
+                .map(student -> (2017-student.getBirthYear()) + " " + student.getName())
+                .sorted()
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
     }
 
     //Print a list of students older than 20 years sorted alphabetically with the following format: Lastname, Firstname.
     //Hint: sorter
     public static void runExercise7() {
-
+        students.stream()
+                .filter(student -> (2017-student.getBirthYear()) > 20)
+                .map(student -> student.getLastName() + ", " + student.getFirstName())
+                .sorted()
+                .collect(Collectors.toList())
+                .forEach(System.out::println);
     }
 
     //Make a list of objects type integer with the different years when students were born, sorted descendingly.
     //Hint: distinct reverseOrder collect
     public static void runExercise8() {
         //List <Integer> years = ?;
+        List <Integer> years =
+                students.stream()
+                        .map(student -> student.getBirthYear())
+                        .sorted(Comparator.reverseOrder())
+                        .distinct()
+                        .collect(Collectors.toList());
         //System.out.println(years);
+        System.out.println(years);
     }
 
     public static void main(String[] args) {
